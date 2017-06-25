@@ -27,7 +27,7 @@ instance Ordered Char where
 
 class Set s a where
     empty  :: s a
-    insert :: a -> s a -> Maybe (s a)
+    insert :: a -> s a -> s a
     member :: a -> s a -> Bool
 
 data UnbalancedSet e = E | T (UnbalancedSet e) e (UnbalancedSet e) deriving(Show)
@@ -48,13 +48,13 @@ member_internal a (T l e r) can
 instance Ordered a => Set (UnbalancedSet) a where
     empty = E
 
-    -- > (insert 'a' empty >>= (insert 'a') >>= (insert 'c')) :: Maybe (UnbalancedSet Char)
-    --   Nothing
-    -- > (insert 'a' empty >>= (insert 'b') >>= (insert 'c')) :: Maybe (UnbalancedSet Char)
-    --   Just (T E 'a' (T E 'b' (T E 'c' E)))
+    -- > (insert 'c' $ insert 'b' $ insert 'a' empty) :: UnbalancedSet Char
+    --   T E 'a' (T E 'b' (T E 'c' E))
+    -- > (insert 'b' $ insert 'b' $ insert 'a' empty) :: UnbalancedSet Char
+    --   T E 'a' (T E 'b' E)
     insert a s
-        | member a s = Nothing
-        | otherwise = Just $ insert_internal a s
+        | member a s = s
+        | otherwise = insert_internal a s
 
     -- > member 'd' (insert 'c' $ insert 'b' $ insert 'a' (empty :: UnbalancedSet Char))
     --   False
