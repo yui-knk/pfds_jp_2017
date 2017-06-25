@@ -32,6 +32,12 @@ class Set s a where
 
 data UnbalancedSet e = E | T (UnbalancedSet e) e (UnbalancedSet e) deriving(Show)
 
+member_internal :: Ordered a => a -> UnbalancedSet a -> a -> Bool
+member_internal a E can = a `eq` can
+member_internal a (T l e r) can
+    | a `leq` e = member_internal a l e
+    | otherwise = member_internal a r can
+
 instance Ordered a => Set (UnbalancedSet) a where
     empty = E
 
@@ -46,8 +52,6 @@ instance Ordered a => Set (UnbalancedSet) a where
     -- > member 'd' (insert 'c' $ insert 'b' $ insert 'a' (empty :: UnbalancedSet Char))
     --   False
     member a E = False
-    member a (T l e r)
-        | a `lt` e = member a l
-        | e `lt` a = member a r
-        | otherwise = True
+    member a t@(T l e r) = member_internal a t e
+
 
