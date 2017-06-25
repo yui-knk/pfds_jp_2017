@@ -3,6 +3,8 @@
 -- https://wiki.haskell.org/Data_declaration_with_constraint
 -- すごいHaskell p.123
 
+-- http://maoe.hatenadiary.jp/entry/20091021/1256101883
+
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE FlexibleInstances #-}
 
