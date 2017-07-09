@@ -10,8 +10,8 @@ import Data.Maybe
 import BinomialHeap
 
 compare_tree_date :: Ord e => Tree e -> Tree e -> Bool
-compare_tree_date (Node _ x1 c1) (Node _ x2 c2) =
-    (x1 == x2) && (length c1 == length c2) && (all (\(a,b) -> compare_tree_date a b) $ zip c1 c2)
+compare_tree_date (Node r1 x1 c1) (Node r2 x2 c2) =
+    (r1 == r2) && (x1 == x2) && (length c1 == length c2) && (all (\(a,b) -> compare_tree_date a b) $ zip c1 c2)
 
 compare_heap_data :: Ord e => Heap e -> Heap e -> Bool
 compare_heap_data [] [] = True
@@ -27,16 +27,16 @@ unitTestsForInterfaces = testGroup "Unit tests"
       in compare_heap_data act expe @?= True
   , testCase "insTree not empty heap" $
       let act = insTree (Node 0 'b' []) [Node 0 'a' []]
-          expe = [(Node 0 'a' [Node 0 'b' []])]
+          expe = [(Node 1 'a' [Node 0 'b' []])]
       in compare_heap_data act expe @?= True
 
   , testCase "insert empty heap" $
       let act = insert 'b' []
           expe = [(Node 0 'b' [])]
       in compare_heap_data act expe @?= True
-  , testCase "insTree not empty heap" $
+  , testCase "insert not empty heap" $
       let act = insert 'b' [Node 0 'a' []]
-          expe = [(Node 0 'a' [Node 0 'b' []])]
+          expe = [(Node 1 'a' [Node 0 'b' []])]
       in compare_heap_data act expe @?= True
 
   , testCase "merge empty heap" $
