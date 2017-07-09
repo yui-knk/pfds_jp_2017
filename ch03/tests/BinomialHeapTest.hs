@@ -64,6 +64,14 @@ unitTestsForInterfaces = testGroup "Unit tests"
       let h = [(Node 0 'h' []), (Node 1 'd' [Node 0 'e' []])]
       in findMin h @?= Just 'd'
 
+  , testCase "findMin2 empty heap" $
+      isNothing (findMin2 ([] :: [Tree Char])) @?= True
+  , testCase "findMin2 not empty heap" $
+      findMin2 [(Node 0 'b' [])] @?= Just 'b'
+  , testCase "findMin2 not empty heap" $
+      let h = [(Node 0 'h' []), (Node 1 'd' [Node 0 'e' []])]
+      in findMin2 h @?= Just 'd'
+
   , testCase "deleteMin empty heap" $
       isNothing (deleteMin ([] :: [Tree Char])) @?= True
   , testCase "deleteMin not empty heap" $

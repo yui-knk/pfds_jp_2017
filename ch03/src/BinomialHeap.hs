@@ -46,6 +46,10 @@ findMin h = do
     (t, _) <- removeMinTree h
     return $ root t
 
+findMin2 :: Ord e => Heap e -> Maybe e
+findMin2 [] = Nothing
+findMin2 h = Just $ minimum $ map root h
+
 deleteMin :: Ord e => Heap e -> Maybe (Heap e)
 deleteMin h = do
     ((Node r x c), ts) <- removeMinTree h
