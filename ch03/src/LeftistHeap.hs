@@ -38,6 +38,14 @@ checkRanks (T r x a b) = do
     _ <- (checkRanks a)
     checkRanks b
 
+
+insert2 :: Ord e => e -> HeapData e -> HeapData e
+insert2 x E = (T 1 x E E)
+insert2 x (T _ y a b) =
+    if x <= y
+    then makeT x a $ insert2 y b
+    else makeT y a $ insert2 x b
+
 instance Ord e => Heap HeapData e where
     empty = E
 

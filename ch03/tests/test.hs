@@ -45,6 +45,10 @@ unitTestsForInterfaces = testGroup "Unit tests"
       in compare_heap_data act expe @?= True
 
   , testCase "" $
+      let act = insert 'x' (E :: HeapData Char)
+          expe = (T 1 'x' E E)
+      in compare_heap_data act expe @?= True
+  , testCase "" $
       let act = insert 'x' (T 1 'y' E E)
           expe = (T 1 'x' (T 1 'y' E E) E)
       in compare_heap_data act expe @?= True
@@ -84,4 +88,17 @@ unitTestsForHelpers = testGroup "Unit tests"
       checkRanks (T 2 0 (T 1 1 E E) (T 1 2 E E)) @?= Right True
   , testCase "checkRanks invalid" $
       checkRanks (T 2 0 (E) (T 1 2 E E)) @?= Left "Rank 2 is invalid. 0 v.s. 1"
+
+  , testCase "" $
+      let act = insert2 'x' (E :: HeapData Char)
+          expe = (T 1 'x' E E)
+      in compare_heap_data act expe @?= True
+  , testCase "" $
+      let act = insert2 'x' (T 1 'y' E E)
+          expe = (T 1 'x' (T 1 'y' E E) E)
+      in compare_heap_data act expe @?= True
+  , testCase "" $
+      let act = insert2 'y' (T 1 'x' E E)
+          expe = (T 1 'x' (T 1 'y' E E) E)
+      in compare_heap_data act expe @?= True
   ]
