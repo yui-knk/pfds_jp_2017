@@ -101,4 +101,14 @@ unitTestsForHelpers = testGroup "Unit tests"
       let act = insert2 'y' (T 1 'x' E E)
           expe = (T 1 'x' (T 1 'y' E E) E)
       in compare_heap_data act expe @?= True
+
+  , testCase "fromList empty" $
+      let h = (fromList [] :: HeapData Int)
+      in isEmpty h @?= True
+  , testCase "fromList not empty" $
+      let h = fromList [2]
+      in compare_heap_data h (T 1 2 E E) @?= True
+  , testCase "fromList not empty" $
+      let h = fromList [0..2]
+      in compare_heap_data h (T 2 0 (T 1 1 E E) (T 1 2 E E)) @?= True
   ]

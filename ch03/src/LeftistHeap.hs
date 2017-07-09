@@ -46,6 +46,23 @@ insert2 x (T _ y a b) =
     then makeT x a $ insert2 y b
     else makeT y a $ insert2 x b
 
+listToPair :: [a] -> [[a]]
+listToPair [] = []
+listToPair [a] = [[a]]
+listToPair (a:b:c) = [a, b] : (listToPair c)
+
+mergePair :: Ord e => [HeapData e] -> HeapData e
+mergePair [a] = a
+mergePair [a, b] = merge a b
+
+listMerge :: Ord e => [[HeapData e]] -> HeapData e
+listMerge [] = E
+listMerge [[a]] = a
+listMerge a = listMerge $ listToPair $ map mergePair a
+
+fromList :: Ord e => [e] -> HeapData e
+fromList elms = listMerge $ listToPair $ map (\e -> insert e empty) elms
+
 instance Ord e => Heap HeapData e where
     empty = E
 
