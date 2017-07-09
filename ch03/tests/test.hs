@@ -4,6 +4,7 @@ import Data.Maybe
 
 import qualified LeftistHeapTest as LHTest
 import qualified WeightBiasedLeftistHeapTest as WBLHTest
+import qualified BinomialHeapTest as BHTest
 
 main = defaultMain tests
 
@@ -13,4 +14,5 @@ tests = testGroup "Tests"
     , LHTest.unitTestsForHelpers
     , WBLHTest.unitTestsForInterfaces
     , WBLHTest.unitTestsForHelpers
+    , BHTest.unitTestsForInterfaces
     ]
