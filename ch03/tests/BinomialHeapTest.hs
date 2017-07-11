@@ -13,7 +13,7 @@ compare_tree_date :: Ord e => Tree e -> Tree e -> Bool
 compare_tree_date (Node r1 x1 c1) (Node r2 x2 c2) =
     (r1 == r2) && (x1 == x2) && (length c1 == length c2) && (all (\(a,b) -> compare_tree_date a b) $ zip c1 c2)
 
-compare_heap_data :: Ord e => Heap e -> Heap e -> Bool
+compare_heap_data :: Ord e => HeapData e -> HeapData e -> Bool
 compare_heap_data [] [] = True
 compare_heap_data [] _ = False
 compare_heap_data _ [] = False
