@@ -1,17 +1,18 @@
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE FlexibleInstances #-}
 
-module LeftistHeap where
+module LeftistHeap
+( module Heap
+, HeapData(..)
+, rank
+, rank2
+, checkRanks
+, insert2
+, fromList
+)
+where
 
-class Heap h e where
-    empty     :: h e
-    isEmpty   :: h e -> Bool
-
-    insert    :: e -> h e -> h e
-    merge     :: h e -> h e -> h e
-
-    findMin   :: h e -> Maybe e
-    deleteMin :: h e -> Maybe (h e)
+import Heap
 
 data HeapData e = E | T Int e (HeapData e) (HeapData e) deriving(Show)
 
