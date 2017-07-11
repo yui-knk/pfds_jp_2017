@@ -1,17 +1,15 @@
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE FlexibleInstances #-}
 
-module WeightBiasedLeftistHeap where
+module WeightBiasedLeftistHeap
+( module Heap
+, HeapData(..)
+, size
+, size2
+)
+where
 
-class Heap h e where
-    empty     :: h e
-    isEmpty   :: h e -> Bool
-
-    insert    :: e -> h e -> h e
-    merge     :: h e -> h e -> h e
-
-    findMin   :: h e -> Maybe e
-    deleteMin :: h e -> Maybe (h e)
+import Heap
 
 data HeapData e = E | T Int e (HeapData e) (HeapData e) deriving(Show)
 
