@@ -16,7 +16,7 @@ build-type:          Simple
 cabal-version:       >=1.10
 
 library
-  exposed-modules:     LeftistHeap, WeightBiasedLeftistHeap, BinomialHeap, BinomialHeap2
+  exposed-modules:     Heap, LeftistHeap, WeightBiasedLeftistHeap, BinomialHeap, BinomialHeap2
   -- other-modules:       
   -- other-extensions:    
   build-depends:       base >=4.7 && <4.8
