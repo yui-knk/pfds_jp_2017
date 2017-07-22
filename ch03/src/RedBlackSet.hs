@@ -32,3 +32,6 @@ insert x s = T Black a y b
               | x > y = balance color a y (ins b)
               | otherwise = s
           T _ a y b = ins s
+
+fromOrdList :: Ord e => [e] -> Tree e
+fromOrdList elms = foldl (flip insert) E elms
