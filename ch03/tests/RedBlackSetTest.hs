@@ -37,4 +37,17 @@ unitTestsForInterfaces =
         , testCase "balance" $
               let act = balance Black a 5 (T Red b 10 (T Red c 15 d))
               in compare_tree_data act expe @?= True
+
+        , testCase "lbalance" $
+              let act = lbalance Black (T Red (T Red a 5 b) 10 c) 15 d
+              in compare_tree_data act expe @?= True
+        , testCase "lbalance" $
+              let act = lbalance Black (T Red a 5 (T Red b 10 c)) 15 d
+              in compare_tree_data act expe @?= True
+        , testCase "rbalance" $
+              let act = rbalance Black a 5 (T Red (T Red b 10 c) 15 d)
+              in compare_tree_data act expe @?= True
+        , testCase "rbalance" $
+              let act = rbalance Black a 5 (T Red b 10 (T Red c 15 d))
+              in compare_tree_data act expe @?= True
         ]
