@@ -27,3 +27,12 @@ reverse :: StreamCell a -> StreamCell a
 reverse s = reverse' s Nil
     where reverse' Nil r = r
           reverse' (Cons x s) r = reverse' s (Cons x r)
+
+insertion_sort :: Ord a => StreamCell a -> StreamCell a
+insertion_sort s = insertion_sort' s Nil
+    where insert e Nil = Cons e Nil
+          insert e c@(Cons x s) =
+              if e > x then Cons x (insert e s)
+              else Cons e c
+          insertion_sort' Nil d = d
+          insertion_sort' (Cons x s) d = insertion_sort' s $ insert x d
