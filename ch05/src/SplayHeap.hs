@@ -7,9 +7,15 @@ isEmpty :: SplayHeap a -> Bool
 isEmpty E = True
 isEmpty _ = False
 
---smaller :: a -> SplayHeap a -> SplayHeap a
---smaller x E = E
---smaller x t 
+-- smaller includes elements which are euqal to pivot
+--
+-- smaller 5 (T (T (T E 1 E) 3 E) 4 (T (T E 5 E) 8 (T E 10 E)))
+smaller :: Ord a => a -> SplayHeap a -> SplayHeap a
+smaller pivot E = E
+smaller pivot (T a x b) =
+    if x > pivot
+    then smaller pivot a
+    else T a x (smaller pivot b)
 
 
 -- bigger 0 (T (T (T (T (T (T (T E 1 E) 2 E) 3 E) 4 E) 5 E) 6 E) 7 E)
