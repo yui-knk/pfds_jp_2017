@@ -70,3 +70,10 @@ findMin :: SplayHeap a -> a
 findMin (T E x b) = x
 findMin (T a x b) = findMin a
 
+-- deleteMin (T E 10 (T E 12 E))
+-- deleteMin (T (T E 5 (T E 8 E)) 10 (T E 12 E))
+-- deleteMin (T (T (T E 2 E) 5 (T E 8 E)) 10 (T E 12 E))
+deleteMin :: SplayHeap a -> SplayHeap a
+deleteMin (T E x b) = b
+deleteMin (T (T E x b) y c) = T b y c
+deleteMin (T (T a x b) y c) = T (deleteMin a) x (T b y c)
