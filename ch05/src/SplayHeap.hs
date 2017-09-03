@@ -37,9 +37,6 @@ bigger pivot (T a x b) =
             then T (bigger pivot a2) x b
             else T (bigger pivot a1) y (T a2 x b)
 
---insert :: a -> SplayHeap a -> SplayHeap a
---insert x t = T (smaller x t) x (bigger x t)
-
 --partition 2 (T (T (T E 1 E) 2 (T E 3 E)) 4 (T E 5 E))
 partition :: Ord a => a -> SplayHeap a -> (SplayHeap a, SplayHeap a)
 partition pivot E = (E, E)
@@ -64,6 +61,11 @@ partition pivot t@(T a x b) =
                 else
                     let (small, big) = partition pivot a1 in
                         (small, T big y (T a2 x b))
+
+-- insert 4 (T (T (T E 1 E) 2 (T E 3 E)) 4 (T E 5 E))
+-- insert 5 (T (T (T E 1 E) 4 (T E 6 E)) 10 (T E 13 E))
+insert :: Ord a => a -> SplayHeap a -> SplayHeap a
+insert x t = let (small, big) = partition x t in T small x big
 
 -- findMin (T (T (T E 1 E) 2 (T E 3 E)) 4 (T E 5 E))
 findMin :: SplayHeap a -> a
