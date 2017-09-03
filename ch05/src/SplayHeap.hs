@@ -65,4 +65,8 @@ partition pivot t@(T a x b) =
                     let (small, big) = partition pivot a1 in
                         (small, T big y (T a2 x b))
 
+-- findMin (T (T (T E 1 E) 2 (T E 3 E)) 4 (T E 5 E))
+findMin :: SplayHeap a -> a
+findMin (T E x b) = x
+findMin (T a x b) = findMin a
 
