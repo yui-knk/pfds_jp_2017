@@ -40,5 +40,29 @@ bigger pivot (T a x b) =
 --insert :: a -> SplayHeap a -> SplayHeap a
 --insert x t = T (smaller x t) x (bigger x t)
 
+--partition 2 (T (T (T E 1 E) 2 (T E 3 E)) 4 (T E 5 E))
+partition :: Ord a => a -> SplayHeap a -> (SplayHeap a, SplayHeap a)
+partition pivot E = (E, E)
+partition pivot t@(T a x b) =
+    if x <= pivot then
+        case b of
+            E -> (t, E)
+            (T b1 y b2) ->
+                if y <= pivot then
+                    let (small, big) = partition pivot b2 in
+                        (T (T a x b1) y small, big)
+                else
+                    let (small, big) = partition pivot b1 in
+                        (T a x small, T big y b2)
+    else
+        case a of
+            E -> (E, t)
+            (T a1 y a2) ->
+                if y <= pivot then
+                    let (small, big) = partition pivot a2 in
+                        (T a1 y small, T big x b)
+                else
+                    let (small, big) = partition pivot a1 in
+                        (small, T big y (T a2 x b))
 
 
