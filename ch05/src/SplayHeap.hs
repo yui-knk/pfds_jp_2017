@@ -67,6 +67,12 @@ partition pivot t@(T a x b) =
 insert :: Ord a => a -> SplayHeap a -> SplayHeap a
 insert x t = let (small, big) = partition x t in T small x big
 
+-- merge (T (T E 4 E) 6 (T E 10 E)) (T E 1 (T E 13 E))
+merge :: Ord a => SplayHeap a -> SplayHeap a -> SplayHeap a
+merge E t = t
+merge (T a x b) t =
+    let (small, big) = partition x t in T (merge small a) x (merge big b)
+
 -- findMin (T (T (T E 1 E) 2 (T E 3 E)) 4 (T E 5 E))
 findMin :: SplayHeap a -> a
 findMin (T E x b) = x
