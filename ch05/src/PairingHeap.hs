@@ -25,3 +25,6 @@ mergePairs [] = E
 mergePairs [h] = h
 mergePairs (h1:h2:hs) = merge (merge h1 h2) (mergePairs hs)
 
+findMin :: Heap a -> Maybe a
+findMin E = Nothing
+findMin (T x h) = Just x
