@@ -33,3 +33,18 @@ findMin (T x h) = Just x
 deleteMin :: Ord a => Heap a -> Maybe (Heap a)
 deleteMin E = Nothing
 deleteMin (T x hs) = Just $ mergePairs hs
+
+
+data BinTree a = E' | T' a (BinTree a) (BinTree a) deriving(Show)
+
+toBinaryI4 :: Heap a -> [Heap a] -> BinTree a
+toBinaryI4 (T x [])             [] = T' x E'                  E'
+toBinaryI4 (T x (h1:hs1))       [] = T' x (toBinaryI4 h1 hs1) E'
+toBinaryI4 (T x [])       (h2:hs2) = T' x E'                  (toBinaryI4 h2 hs2)
+toBinaryI4 (T x (h1:hs1)) (h2:hs2) = T' x (toBinaryI4 h1 hs1) (toBinaryI4 h2 hs2)
+
+-- toBinary (T 1 [T 3 [T 5 [T 6 []],T 4 []],T 2 []])
+--   T' 1 (T' 3 (T' 5 (T' 6 E' E') (T' 4 E' E')) (T' 2 E' E')) E'
+toBinary :: Heap a -> BinTree a
+toBinary E = E'
+toBinary h = toBinaryI4 h []
