@@ -48,3 +48,8 @@ toBinaryI4 (T x (h1:hs1)) (h2:hs2) = T' x (toBinaryI4 h1 hs1) (toBinaryI4 h2 hs2
 toBinary :: Heap a -> BinTree a
 toBinary E = E'
 toBinary h = toBinaryI4 h []
+
+-- findMinBin $ toBinary (T 1 [T 3 [T 5 [T 6 []],T 4 []],T 2 []])
+findMinBin :: BinTree a -> Maybe a
+findMinBin E' = Nothing
+findMinBin (T' x _ _) = Just x
