@@ -19,3 +19,9 @@ merge (h1@(T x hs1)) (h2@(T y hs2)) =
 insert :: Ord a => a -> Heap a -> Heap a
 insert x h = merge (T x []) h
 
+-- mergePairs [(T 1 []), (T 2 []), (T 3 []), (T 4 []), (T 5 []), (T 6 [])]
+mergePairs :: Ord a => [Heap a] -> Heap a
+mergePairs [] = E
+mergePairs [h] = h
+mergePairs (h1:h2:hs) = merge (merge h1 h2) (mergePairs hs)
+
