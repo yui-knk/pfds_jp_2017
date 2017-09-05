@@ -28,3 +28,8 @@ mergePairs (h1:h2:hs) = merge (merge h1 h2) (mergePairs hs)
 findMin :: Heap a -> Maybe a
 findMin E = Nothing
 findMin (T x h) = Just x
+
+-- deleteMin (T 1 [T 3 [T 5 [T 6 []],T 4 []],T 2 []])
+deleteMin :: Ord a => Heap a -> Maybe (Heap a)
+deleteMin E = Nothing
+deleteMin (T x hs) = Just $ mergePairs hs
