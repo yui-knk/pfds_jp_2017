@@ -23,15 +23,15 @@
 
 回転時に
 
-* "f = 2m"
-* "r = m + 1"
+* "f = m"
+* "r = 2m + 1"
 
 とする。
-append は 2m の負債を生み、 reverse が m+1 の負債を生む。
-append のコストは index 0 から index 2m-1 の 2m こにそれぞれ負担させ、
-reverse のコストは index 2m に負担させる。
+append は m の負債を生み、 reverse が 2m+1 の負債を生む。
+append のコストは index 0 から index m-1 の m こにそれぞれ負担させ、
+reverse のコストは index m に負担させる。
 
-D(2m) = 2m + (m+1) <= min(2*2m, 2m+1 - 0)
+D(m) = m + (2m+1) <= min(2*m, m + (2m + 1))
 
 が成立するので、不変条件に違反しない。
 
