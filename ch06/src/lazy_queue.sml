@@ -26,3 +26,4 @@ fun tail (Queue ([], lenf, f, lenr, r)) = raise Empty
 val a = (snoc (empty, 1));
 val b = (snoc (snoc (snoc (empty, 1), 2), 3));
 val c = (snoc (snoc (snoc (snoc (snoc (snoc (snoc (empty, 1), 2), 3), 4), 5), 6), 7));
+val d = tail c;
