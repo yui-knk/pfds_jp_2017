@@ -74,6 +74,13 @@ end
 
 structure IntSort = BottomUpMergeSort (IntOrdered)
 
+fun take (n, xs) =
+  let fun take0 (0, xs, acc)   = rev acc
+        | take0 (n, $NIL, acc) = rev acc
+        | take0 (n, $(CONS(x, xs)), acc) = take0 (n - 1, xs, x :: acc)
+  in take0 (n, xs, []) end
+
 val a = IntSort.add(4, IntSort.add(2, IntSort.add (3, IntSort.add (1, IntSort.empty))));
 val b = IntSort.sort(a);
 val c = dump_stream b;
+val d = take(2, b);
