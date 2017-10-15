@@ -6,6 +6,11 @@ fun force ($ x) = x
 datatype 'a StreamCell = NIL | CONS of 'a * 'a Stream
 withtype 'a Stream = 'a StreamCell susp
 
+fun dump_stream (xs) =
+  let fun dump_stream_2 (acc, ($NIL)) = rev acc
+        | dump_stream_2 (acc, ($(CONS (x, xs)))) = dump_stream_2 (x :: acc, xs)
+  in dump_stream_2([], xs) end
+
 signature ORDERED = 
 sig
   type T
@@ -71,3 +76,4 @@ structure IntSort = BottomUpMergeSort (IntOrdered)
 
 val a = IntSort.add(4, IntSort.add(2, IntSort.add (3, IntSort.add (1, IntSort.empty))));
 val b = IntSort.sort(a);
+val c = dump_stream b;
