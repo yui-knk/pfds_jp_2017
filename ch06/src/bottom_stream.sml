@@ -37,11 +37,11 @@ struct
 
   type Sortable = int * Elem.T Stream list
 
-  (* 'a StreamCell * 'a StreamCell -> 'a StreamCell *)
-  fun mrg (NIL, ys) = ys
-    | mrg (xs, NIL) = xs
-    | mrg (xs as CONS(x, xs'), ys as CONS(y, ys')) =
-        if Elem.leq (x, y) then (CONS(x, $(mrg (force xs', ys)))) else (CONS(y, $(mrg (xs, force ys'))))
+  (* 'a Stream * 'a Stream -> 'a Stream *)
+  fun lazy mrg ($NIL, ys) = ys
+         | mrg (xs, $NIL) = xs
+         | mrg (xs as $(CONS(x, xs')), ys as $(CONS(y, ys'))) =
+             if Elem.leq (x, y) then $(CONS(x, mrg (xs', ys))) else $(CONS(y, mrg (xs, ys')))
 
   val empty = (0, [])
 
@@ -54,13 +54,13 @@ struct
         *)
        let fun addSeg (seg, segs, size) = 
                 if size mod 2 = 0 then seg :: segs
-                else addSeg ($(mrg (force seg, force (hd segs))), tl segs, size div 2)
+                else addSeg (mrg (seg, hd segs), tl segs, size div 2)
        in (size + 1, addSeg ($(CONS(x, $NIL)), segs, size)) end
 
   fun sort (size, segs) =
-       let fun mrgAll (xs, []) = $(xs)
-             | mrgAll (xs, seg :: segs) = mrgAll (mrg (xs, force seg), segs)
-       in mrgAll (NIL, segs) end
+       let fun mrgAll (xs, []) = xs
+             | mrgAll (xs, seg :: segs) = mrgAll (mrg (xs, seg), segs)
+       in mrgAll ($NIL, segs) end
 end
 
 structure IntOrdered : ORDERED =
