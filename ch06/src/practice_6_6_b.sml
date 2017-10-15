@@ -21,7 +21,7 @@ fun head (Queue ([], lenf, f, lenr, r)) = raise Empty
   | head (Queue (x::w, lenf, f, lenr, r)) = x
 
 fun tail (Queue ([], lenf, f, lenr, r)) = raise Empty
-  | tail (Queue (x::w, lenf, f, lenr, r)) = check (Queue (w, lenf - 1, $(tl (force f)), lenr, r))
+  | tail (Queue (x::w, lenf, f, lenr, r)) = check (Queue (w, lenf - 1, f, lenr, r))
 
 val a = (snoc (empty, 1));
 val b = (snoc (snoc (snoc (empty, 1), 2), 3));
