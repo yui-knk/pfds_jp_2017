@@ -41,6 +41,12 @@ struct
   val empty = (0, [])
 
   fun add (x, (size, segs)) =
+       (*
+          ここではsegとsegsをそのまま結合したいため、
+          'a Stream
+          'a Stream list
+          であつかう。
+        *)
        let fun addSeg (seg, segs, size) = 
                 if size mod 2 = 0 then seg :: segs
                 else addSeg ($(mrg (force seg, force (hd segs))), tl segs, size div 2)
