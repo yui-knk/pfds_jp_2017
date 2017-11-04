@@ -33,8 +33,12 @@ struct
   val empty = (0, $NIL, 0, $NIL)
   fun isEmpty (lenf, _, _, _) = (lenf = 0)
 
+  fun rotate ($NIL, $(CONS (y, _)), a) = $(CONS(y, a))
+    | rotate ($(CONS (x, xs)), $(CONS (y, ys)), a) =
+        $(CONS (x, rotate (xs, ys, $(CONS(y, a)))))
+
   fun check (q as (lenf, f, lenr, r)) =
-    if lenr <= lenf then q else (lenf + lenr, f :: reverse r, 0, $NIL)
+    if lenr <= lenf then q else (lenf + lenr, rotate (f, r, $NIL), 0, $NIL)
 
   fun snoc ((lenf, f, lenr, r), x) = check (lenf, f, lenr + 1, $(CONS (x, r)))
 
