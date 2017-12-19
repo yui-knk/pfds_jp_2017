@@ -32,7 +32,7 @@ struct
     | invalidate state = state
 
   fun exec2 (lenf, f, state, lenr, r) =
-    case exec (state) of
+    case exec (exec state) of
       DONE newf => (lenf, newf, IDLE, lenr, r)
     | newstate => (lenf, f, newstate, lenr, r)
 
