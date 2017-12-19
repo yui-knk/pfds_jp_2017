@@ -110,11 +110,11 @@ struct
     | tail (lenf, x::f, state, lenr, r) = check (lenf-1, f, invalidate state, lenr, r)
 end
 
-val q1 = foldl (flip HoodMelvilleQueue2.snoc) HoodMelvilleQueue2.empty [1];
-val q2 = foldl (flip HoodMelvilleQueue2.snoc) HoodMelvilleQueue2.empty [1,2];
-val q3 = foldl (flip HoodMelvilleQueue2.snoc) HoodMelvilleQueue2.empty [1,2,3];
-val q4 = foldl (flip HoodMelvilleQueue2.snoc) HoodMelvilleQueue2.empty [1,2,3,4];
-val q5 = foldl (flip HoodMelvilleQueue2.snoc) HoodMelvilleQueue2.empty [1,2,3,4,5];
+val q2_1 = foldl (flip HoodMelvilleQueue2.snoc) HoodMelvilleQueue2.empty [1];
+val q2_2 = foldl (flip HoodMelvilleQueue2.snoc) HoodMelvilleQueue2.empty [1,2];
+val q2_3 = foldl (flip HoodMelvilleQueue2.snoc) HoodMelvilleQueue2.empty [1,2,3];
+val q2_4 = foldl (flip HoodMelvilleQueue2.snoc) HoodMelvilleQueue2.empty [1,2,3,4];
+val q2_5 = foldl (flip HoodMelvilleQueue2.snoc) HoodMelvilleQueue2.empty [1,2,3,4,5];
 
 (* 8.3 *)
 structure HoodMelvilleQueue3 : QUEUE =
