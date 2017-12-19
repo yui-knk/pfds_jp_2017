@@ -52,3 +52,12 @@ struct
   fun tail (lenf, [], state, lenr, r) = raise Empty
     | tail (lenf, x::f, state, lenr, r) = check (lenf-1, f, invalidate state, lenr, r)
 end
+
+fun flip f (x, y) = f (y ,x)
+
+
+val q1 = foldl (flip HoodMelvilleQueue.snoc) HoodMelvilleQueue.empty [1];
+val q2 = foldl (flip HoodMelvilleQueue.snoc) HoodMelvilleQueue.empty [1,2];
+val q3 = foldl (flip HoodMelvilleQueue.snoc) HoodMelvilleQueue.empty [1,2,3];
+val q4 = foldl (flip HoodMelvilleQueue.snoc) HoodMelvilleQueue.empty [1,2,3,4];
+val q5 = foldl (flip HoodMelvilleQueue.snoc) HoodMelvilleQueue.empty [1,2,3,4,5];
