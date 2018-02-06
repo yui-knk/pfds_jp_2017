@@ -12,14 +12,8 @@ end
 
 signature CONSQUEUE = 
 sig
-  type 'a Queue
+  include QUEUE
 
-  val empty   : 'a Queue
-  val isEmpty : 'a Queue -> bool
-
-  val snoc    : 'a Queue * 'a -> 'a Queue
-  val head    : 'a Queue -> 'a
-  val tail    : 'a Queue -> 'a Queue
   val cons    : 'a * 'a Queue -> 'a Queue
 end
 
