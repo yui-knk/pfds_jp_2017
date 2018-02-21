@@ -75,22 +75,43 @@ struct
         if i < size t then ONE (updateTree (i, y, t)) :: ts
         else ONE t :: update (i - size t, y, ts)
 
+  (*
+    [ZERO, ZERO] のようにならないときだけ、
+    ZERO を追加する。
+  *)
   fun consZero ([]) = []
     | consZero (ts) = ZERO :: ts
 
-  (* 停止条件は LEAF に触ること *)
-  fun fillWithZero (LEAF x, ts) = consZero (ts)
+  (*
+    停止条件は LEAF に触ること。
+  *)
+  fun fillWithZero (LEAF x, ts) = ts
     | fillWithZero (NODE (w, t1, t2), ts) = fillWithZero (t1, consZero (ts))
 
-  (* 停止条件は 0 になること *)
-  fun dropTree (0, t as LEAF x, ts) = ONE t :: ts
-    | dropTree (1, LEAF x, ts) = consZero (ts)
+  (*
+    停止条件は k = 0 になること、もしくは
+    LEAF に触ること。
+    k = 0 になったときに、NODE の場合は、
+    それより低い位置を ZERO で埋めるために fillWithZero を呼び出す。
+
+    O(log n) で処理をするために、常に NODE のどちらかの Tree にのみ
+    操作を行うことができる。
+    LEAF に向かいながら、上位の桁から決定していく。
+
+    `k < w div 2` および `k = w div 2` のときは右の Tree をその後の操作で触ることがないため
+    右の Tree を上位の桁として決定してよい。
+
+    `k > w div 2` のときは今現在の桁にはbitが立たないため、 ZERO 上位の桁として決定してよい。
+  *)
+  fun dropTree (k, LEAF x, ts) = ts
     | dropTree (0, t as NODE (w, t1, t2), ts) = fillWithZero (t1, ONE t :: ts)
     | dropTree (k, NODE (w, t1, t2), ts) =
-        if k <= w div 2 then dropTree (k, t1, ONE t2 :: ts)
+        if k = w div 2 then fillWithZero (t1, ONE t2 :: ts)
+        else if k < w div 2 then dropTree (k, t1, ONE t2 :: ts)
         else dropTree (k - w div 2, t2, consZero (ts))
 
   fun drop (k, []) = raise Subscript
+    | drop (0, ts) = ts
     | drop (k, ZERO :: ts) = drop (k, ts)
     | drop (k, ONE t :: ts) =
         if k <= size t then dropTree (k, t, ts)
@@ -105,4 +126,3 @@ val t3 = BinaryRandomAccessList.drop (1, t)
 val t2 = BinaryRandomAccessList.drop (2, t)
 val t1 = BinaryRandomAccessList.drop (3, t)
 val t0 = BinaryRandomAccessList.drop (4, t)
-
