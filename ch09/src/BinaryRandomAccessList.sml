@@ -1,6 +1,13 @@
 use "RANDOMACCESSLIST.sml";
 
-structure BinaryRandomAccessList : RANDOMACCESSLIST =
+signature RANDOMACCESSLISWITHDROP =
+sig
+  include RANDOMACCESSLIST
+
+  val drop : int * 'a RList -> 'a RList
+end
+
+structure BinaryRandomAccessList : RANDOMACCESSLISWITHDROP =
 struct
   datatype 'a Tree = LEAF of 'a | NODE of int * 'a Tree * 'a Tree
   datatype 'a Digit = ZERO | ONE of 'a Tree
@@ -67,7 +74,35 @@ struct
     | update (i, y, ONE t :: ts) =
         if i < size t then ONE (updateTree (i, y, t)) :: ts
         else ONE t :: update (i - size t, y, ts)
+
+  fun consZero ([]) = []
+    | consZero (ts) = ZERO :: ts
+
+  (* 停止条件は LEAF に触ること *)
+  fun fillWithZero (LEAF x, ts) = consZero (ts)
+    | fillWithZero (NODE (w, t1, t2), ts) = fillWithZero (t1, consZero (ts))
+
+  (* 停止条件は 0 になること *)
+  fun dropTree (0, t as LEAF x, ts) = ONE t :: ts
+    | dropTree (1, LEAF x, ts) = consZero (ts)
+    | dropTree (0, t as NODE (w, t1, t2), ts) = fillWithZero (t1, ONE t :: ts)
+    | dropTree (k, NODE (w, t1, t2), ts) =
+        if k <= w div 2 then dropTree (k, t1, ONE t2 :: ts)
+        else dropTree (k - w div 2, t2, consZero (ts))
+
+  fun drop (k, []) = raise Subscript
+    | drop (k, ZERO :: ts) = drop (k, ts)
+    | drop (k, ONE t :: ts) =
+        if k <= size t then dropTree (k, t, ts)
+        else drop (k - size t, ts)
 end
 
-val t1 = foldl BinaryRandomAccessList.cons BinaryRandomAccessList.empty [1,2,3,4]
-val e1 = BinaryRandomAccessList.lookup (1, t1)
+val t = foldl BinaryRandomAccessList.cons BinaryRandomAccessList.empty [1,2,3,4]
+val e1 = BinaryRandomAccessList.lookup (1, t)
+
+val t4 = BinaryRandomAccessList.drop (0, t)
+val t3 = BinaryRandomAccessList.drop (1, t)
+val t2 = BinaryRandomAccessList.drop (2, t)
+val t1 = BinaryRandomAccessList.drop (3, t)
+val t0 = BinaryRandomAccessList.drop (4, t)
+
