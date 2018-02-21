@@ -104,7 +104,6 @@ struct
     `k > w div 2` のときは今現在の桁にはbitが立たないため、 ZERO 上位の桁として決定してよい。
   *)
   fun dropTree (k, LEAF x, ts) = ts
-    | dropTree (0, t as NODE (w, t1, t2), ts) = fillWithZero (t1, ONE t :: ts)
     | dropTree (k, NODE (w, t1, t2), ts) =
         if k = w div 2 then fillWithZero (t1, ONE t2 :: ts)
         else if k < w div 2 then dropTree (k, t1, ONE t2 :: ts)
