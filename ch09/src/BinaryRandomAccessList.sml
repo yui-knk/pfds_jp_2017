@@ -1,13 +1,14 @@
 use "RANDOMACCESSLIST.sml";
 
-signature RANDOMACCESSLISWITHDROP =
+signature RANDOMACCESSLISEXTENDED =
 sig
   include RANDOMACCESSLIST
 
   val drop : int * 'a RList -> 'a RList
+  val create : int * 'a -> 'a RList
 end
 
-structure BinaryRandomAccessList : RANDOMACCESSLISWITHDROP =
+structure BinaryRandomAccessList : RANDOMACCESSLISEXTENDED =
 struct
   datatype 'a Tree = LEAF of 'a | NODE of int * 'a Tree * 'a Tree
   datatype 'a Digit = ZERO | ONE of 'a Tree
@@ -115,6 +116,17 @@ struct
     | drop (k, ONE t :: ts) =
         if k <= size t then dropTree (k, t, ts)
         else drop (k - size t, ts)
+
+  fun create2 (0, t) = []
+    | create2 (k, t) =
+        let val t2 = link (t, t) in
+          if k mod (size t2) = 0 then ZERO :: create2 (k, t2)
+          else ONE t :: create2 (k - size (t), t2)
+        end
+
+  fun create (k, x) =
+        if k < 0 then raise Subscript
+        else create2 (k, LEAF x)
 end
 
 val t = foldl BinaryRandomAccessList.cons BinaryRandomAccessList.empty [1,2,3,4]
@@ -125,3 +137,10 @@ val t3 = BinaryRandomAccessList.drop (1, t)
 val t2 = BinaryRandomAccessList.drop (2, t)
 val t1 = BinaryRandomAccessList.drop (3, t)
 val t0 = BinaryRandomAccessList.drop (4, t)
+
+val c0 = BinaryRandomAccessList.create (0, "a")
+val c1 = BinaryRandomAccessList.create (1, "a")
+val c2 = BinaryRandomAccessList.create (2, "a")
+val c3 = BinaryRandomAccessList.create (3, "a")
+val c4 = BinaryRandomAccessList.create (4, "a")
+val c5 = BinaryRandomAccessList.create (5, "a")
