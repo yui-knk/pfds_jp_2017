@@ -1,8 +1,7 @@
 use "ORDERED.sml";
 use "HEAP.sml";
 
-(*functor TrinomialHeap (Element : ORDERED) : HEAP =*)
-functor TrinomialHeap (Element : ORDERED) =
+functor TrinomialHeap (Element : ORDERED) : HEAP =
 struct
   structure Elem = Element
   datatype Tree = NODE of Elem.T * (Tree * Tree) list
