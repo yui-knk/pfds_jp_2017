@@ -63,4 +63,4 @@ struct
 end
 
 
-structure IntSort = SkewBinomialHeap (IntOrdered)
+structure IntSkewBinomialHeap = SkewBinomialHeap (IntOrdered)
