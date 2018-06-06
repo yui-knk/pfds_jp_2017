@@ -12,7 +12,15 @@ sig
   val tail    : 'a Queue -> 'a Queue
 end
 
-structure HoodMelvilleQueue : QUEUE =
+signature QUEUEEXTENDED =
+sig
+  include QUEUE
+
+  val lookup : int * 'a Queue -> 'a
+  (*val update : int * 'a * 'a Queue -> 'a Queue*)
+end
+
+structure HoodMelvilleQueue : QUEUEEXTENDED =
 let
   structure S = SkewBinaryNumberRandomAccessList
 in
@@ -60,10 +68,18 @@ in
 
     fun tail (lenf, [], state, lenr, r) = raise Empty
       | tail (lenf, ts, state, lenr, r) = check (lenf-1, S.tail ts, invalidate state, lenr, r)
+
+    fun count ([], s) = s
+      | count ((w, t) :: ts, s) = count (ts, s + w)
+
+    fun lookup (i, (lenf, [], state, lenr, rs))= raise Subscript
+      | lookup (i, (lenf, ts, state, lenr, rs)) =
+          if i < count (ts, 0) then S.lookup (i, ts)
+          else S.lookup (i - count (ts, 0), rs)
   end
 end
 
-fun flip f (x, y) = f (y ,x)
+fun flip f (x, y) = f (y, x)
 
 val q1 = foldl (flip HoodMelvilleQueue.snoc) HoodMelvilleQueue.empty [1];
 val q2 = foldl (flip HoodMelvilleQueue.snoc) HoodMelvilleQueue.empty [1,2];
