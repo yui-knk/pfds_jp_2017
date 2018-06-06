@@ -1,3 +1,5 @@
+use "ORDERED.sml";
+
 signature HEAP = 
 sig
   structure Elem : ORDERED
