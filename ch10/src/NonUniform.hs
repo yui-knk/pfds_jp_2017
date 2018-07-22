@@ -41,10 +41,17 @@ lookup i (One x s) = lookup (i-1) (Zero s)
 lookup i (Zero s) = if (mod i 2) == 0 then x else y
     where (x, y) = lookup (div i 2) s
 
-update :: Int -> a -> Seq a -> Seq a
-update 0 e (One x s) = One e s
-update i e (One x s) = cons x (update (i-1) e (Zero s))
-update i e (Zero s) = Zero (update (div i 2) p s) -- it may be `(div i 2)` not `(i-1)`
+fupdate :: (a -> a) -> Int -> Seq a -> Seq a
+fupdate f 0 (One x s) = One (f x) s
+fupdate f i (One x s) = cons x (fupdate f (i-1) (Zero s))
+fupdate f i (Zero s) = Zero (fupdate f' (div i 2) s)
     where
-      (x, y) = lookup (div i 2) s
-      p = if (mod i 2) == 0 then (e, y) else (x, e)
+      f' = \(x, y) -> if (mod i 2) == 0 then (f x, y) else (x, f y)
+
+update :: Int -> a -> Seq a -> Seq a
+update i y s = fupdate (\x -> y) i s
+
+-- update 0 10 (cons 3 (cons 2 (cons 1 (cons 0 Nil))))
+-- update 1 10 (cons 3 (cons 2 (cons 1 (cons 0 Nil))))
+-- update 2 10 (cons 3 (cons 2 (cons 1 (cons 0 Nil))))
+-- update 3 10 (cons 3 (cons 2 (cons 1 (cons 0 Nil))))
