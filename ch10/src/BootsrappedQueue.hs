@@ -32,3 +32,6 @@ tail (Q lenfm (x:f') m lenr r) = checkQ (lenfm-1) f' m lenr r
 
 --foldl (snoc) empty [1..10]
 
+-- 10_3
+--foldl (snoc) empty [1..16]
+
